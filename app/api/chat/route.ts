@@ -24,9 +24,8 @@ export async function POST(req: Request) {
 
     // Chat Completions（安価で速いモデルを推奨）
     const resp = await client.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'gpt-5-mini',
       messages,
-      temperature: 0.3,
     })
 
     const text = resp.choices[0]?.message?.content ?? ''

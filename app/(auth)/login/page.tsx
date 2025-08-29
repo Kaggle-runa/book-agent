@@ -1,8 +1,6 @@
-// @ts-nocheck
-// @ts-nocheck
 'use client'
 
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Card, CardContent } from '@/components/ui/card'
@@ -10,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { BookOpen } from 'lucide-react'
 
-function LoginContent() {
+export default function LoginPage() {
   const router = useRouter()
   const sp = useSearchParams()
   const next = sp.get('next') || '/'
@@ -37,12 +35,7 @@ function LoginContent() {
   const signInWithGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo:
-          typeof window !== 'undefined'
-            ? `${window.location.origin}/login?next=${encodeURIComponent(next)}`
-            : undefined,
-      },
+      options: { redirectTo: typeof window !== 'undefined' ? window.location.origin + `/login?next=${encodeURIComponent(next)}` : undefined }
     })
   }
 
@@ -80,13 +73,5 @@ function LoginContent() {
         </CardContent>
       </Card>
     </div>
-  )
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={<div className="p-6 text-center">Loading...</div>}>
-      <LoginContent />
-    </Suspense>
   )
 }
